@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>project2</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function() {
+            var stt = 1;
+            // tạo bảng và các giá gắn các giá trị vào bảng
+            $("#nhap").on('click', function() {
+
+
+                var ten = $("#ten").val();
+                var toan = $("#diemtoan").val();
+                var ly = $("#diemly").val();
+                var hoa = $("#diemhoa").val();
+                $("#bang").append("<tr>" + "<td>" + stt + "</td>" + "<td>" + ten + "</td>" + "<td>" + toan + "</td>" + "<td>" + ly + "</td>" + "<td>" + hoa + "</td>" + "<td>" + "?" + "</td>" + "<td>" + "<button class='xoa'>xóa</button>" + "</td>" + "</tr>");
+                stt++;
+                // đặt các input giá trị về trống
+                $("#ten").val("");
+                $("#diemtoan").val("");
+                $("#diemly").val("");
+                $("#diemhoa").val("");
+
+
+
+
+            });
+
+            // tạo hàm tính điểm là 
+            $("#tinhdiem").on('click', function() {
+                // duyệt qua mỗi hàng của bảng
+                $("tr").each(function() {
+                    var toan = $(this).children("td").eq(2).html();
+                    var ly = $(this).children("td").eq(3).html();
+                    var hoa = $(this).children("td").eq(4).html();
+                    var tb = (parseFloat(toan) + parseFloat(ly) + parseFloat(hoa)) / 3;
+                    // chuyển đổi giá trị của các cột thành dạng số lẻ
+                    if (tb >= 0) {
+                        $(this).children("td").eq(5).html(tb.toFixed(1));
+                        //thay đổi giá trị cho cột điểm trung bình và lấy 1 số thập phân 
+                    }
+                });
+            });
+            // hàm xác định học sinh giỏi
+            var hsg = 0;
+            $("#xacdinh").click(function() {
+
+                $("tr").each(function() {
+                    var diemtb = $(this).children("td").eq(5).html();
+                    var x = parseFloat(diemtb);
+                    //lấy giá trị của cột và chuyển thành số lẻ
+                    if (x >= 8.0) {
+                        $(this).css("color", "red");
+                        hsg++;
+                        // so sánh điểm để chọn học sinh giỏi và chuyển màu của hàng học sinh giỏi thành đỏ
+                    }
+
+
+                });
+
+
+            });
+            // xoá hàng trong bảng khi click nút xoá
+            $("#bang").on('click', '.xoa', function() {
+                $(this).closest('tr').remove();
+            });
+            //thống kê học sinh
+            $("#thongke").mousedown(function() {
+                $("#thongke").html("Tổng số học sinh giỏi là:" + hsg + "học sinh" + "<br>" + "Tổng số học sinh không đạt giỏi là:" + ((stt - 1) - hsg) + "học sinh");
+            });
+
+        });
+    </script>
+    <style>
+        #main {
+            line-height: 40px;
+            font-size: 25px;
+            text-align: center;
+        }
+        
+        table {
+            margin-top: 20px;
+            width: 100%;
+            border: 0px solid black;
+        }
+        
+        table tr {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        
+        table td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        
+        input {
+            width: 250px;
+            line-height: 30px;
+            font-size: 20px;
+        }
+        
+        button {
+            width: auto;
+            height: 35px;
+        }
+        
+        #ten {
+            margin-left: 40px;
+        }
+        
+        #diemhoa {
+            margin-left: 10px;
+        }
+        
+        #diemly {
+            margin-left: 30px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="main">
+        <h1>Class Marksheet</h1>
+        <form>
+            Họ tên <input id="ten" type="text"> <br> Điểm toán <input id="diemtoan" type="text"> <br> Điểm lý<input id="diemly" type="text"> <br> Điểm hoá <input id="diemhoa" type="text"> <br>
+        </form>
+
+        <button id="nhap">Nhập</button> <br>
+
+
+        <table id="bang">
+            <tr>
+                <td>STT</td>
+                <td>Họ tên</td>
+                <td>Toán</td>
+                <td>Lý</td>
+                <td>Hoá</td>
+                <td>Trung bình</td>
+            </tr>
+        </table>
+
+        <button id="tinhdiem">Tính điểm trung bình</button>
+        <button id="xacdinh">Xác định học sinh giỏi</button>
+
+
+        <p id="thongke">click để xem thống kê</p>
+    </div>
+    <script>
+    </script>
+</body>
+
+</html>
